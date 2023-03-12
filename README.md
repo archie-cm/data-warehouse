@@ -10,7 +10,7 @@ clean the data and bonus point if using repeated columns)
 WITH
   cte AS (
   SELECT
-    DISTINCT channelGrouping,
+    channelGrouping,
     date,
     geoNetwork_country,
     COUNT(DISTINCT CONCAT(fullVisitorId, CAST(visitId AS STRING))) AS Transactions,
