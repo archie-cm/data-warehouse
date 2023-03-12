@@ -29,7 +29,7 @@ SELECT
   ARRAY_AGG(date) AS Date,
   ARRAY_AGG(geoNetwork_country) AS Country,
   ARRAY_AGG(Transactions) AS Transactions,
-  ARRAY_AGG(cte.Total_Revenue) AS Total_Revenue
+  ARRAY_AGG(Total_Revenue) AS Total_Revenue
 FROM
   cte
 GROUP BY
