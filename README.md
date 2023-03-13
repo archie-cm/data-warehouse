@@ -12,11 +12,13 @@ WITH
   SELECT
     channelGrouping,
     date,
-    geoNetwork_country,
-    COUNT(DISTINCT CONCAT(fullVisitorId, CAST(visitId AS STRING))) AS Transactions,
-    SUM(totals_totalTransactionRevenue) AS Total_Revenue
+    geoNetwork_country AS country,
+    COUNT(DISTINCT CONCAT(fullVisitorId, CAST(visitId AS STRING))) AS transactions,
+    SUM(totals_totalTransactionRevenue) AS total_revenue
   FROM
     `data-to-insights.ecommerce.rev_transactions`
+  WHERE
+    NOT geoNetwork_country = "(not set)"
   GROUP BY
     1,
     2,
@@ -25,16 +27,16 @@ WITH
     date,
     geoNetwork_country ASC )
 SELECT
-  channelGrouping AS Channel,
-  ARRAY_AGG(date) AS Date,
-  ARRAY_AGG(geoNetwork_country) AS Country,
-  ARRAY_AGG(Transactions) AS Transactions,
-  ARRAY_AGG(Total_Revenue) AS Total_Revenue
+  channelGrouping AS channel,
+  ARRAY_AGG(STRUCT(date,
+      country,
+      transactions,
+      total_revenue)) AS trx
 FROM
   cte
 GROUP BY
-  channelGrouping
+  1
 ```
 
 ## Table View
->https://docs.google.com/spreadsheets/d/19GaxTItZeDpJbYS8hf_0gGzczQesaz18PbWL5NJIKeg/edit?usp=sharing
+>https://docs.google.com/spreadsheets/d/1mwkq5EqcGI3bYVK_lc7hWhI2mOIyo7H6RoOyiZtR0iA/edit?usp=sharing
